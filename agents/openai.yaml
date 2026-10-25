@@ -1,4 +1,0 @@
-interface:
-  display_name: "Morris 风格说理"
-  short_description: "围绕位置、资源、约束与反馈，把成长和商业问题写成冷静清晰的原创认知短文"
-  default_prompt: "使用 $morris-lt-style，把「努力很久却没有积累」写成一篇约 200 字的原创认知短文。"
