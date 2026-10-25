@@ -1,5 +1,7 @@
 [CmdletBinding()]
 param(
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
     [string]$SkillRoot,
     [string]$DiscoveryRoot
 )
@@ -9,15 +11,11 @@ $sourceRoot = [IO.Path]::GetFullPath($PSScriptRoot)
 $nameMatch = [regex]::Match([IO.File]::ReadAllText((Join-Path $sourceRoot 'SKILL.md')), '(?m)^name:\s*([a-z0-9-]+)\s*$')
 if (-not $nameMatch.Success) { throw 'SKILL.md must contain a valid name.' }
 $skillName = $nameMatch.Groups[1].Value
-if (-not $DiscoveryRoot) {
-    $discoveryBase = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex' }
-    $DiscoveryRoot = Join-Path $discoveryBase 'skills'
-}
-if (-not $SkillRoot) { $SkillRoot = $DiscoveryRoot }
+if (-not $DiscoveryRoot) { $DiscoveryRoot = $SkillRoot }
 $targetPath = [IO.Path]::GetFullPath((Join-Path $SkillRoot $skillName)).TrimEnd('\')
 $discoveryPath = [IO.Path]::GetFullPath((Join-Path $DiscoveryRoot $skillName)).TrimEnd('\')
 $sourceRoot = $sourceRoot.TrimEnd('\')
-$bundleNames = @('SKILL.md', 'agents', 'references', 'assets', 'README.md', 'install.ps1', '.gitignore', '.gitattributes')
+$bundleNames = @('SKILL.md', 'references', 'assets', 'README.md', 'install.ps1', '.gitignore', '.gitattributes')
 
 # Check collisions before copying anything; never replace an existing skill or link.
 $existingLink = Get-Item -LiteralPath $discoveryPath -Force -ErrorAction SilentlyContinue
