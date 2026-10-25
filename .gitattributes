@@ -1,5 +1,6 @@
 * text=auto
 *.md text eol=lf
 *.yaml text eol=lf
-*.ps1 text eol=crlf
+*.ps1 text eol=lf
+references/source-report.md -text
 *.png binary

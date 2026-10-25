@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$SkillRoot = 'F:\codex\skills',
+    [string]$SkillRoot,
     [string]$DiscoveryRoot
 )
 
@@ -13,6 +13,7 @@ if (-not $DiscoveryRoot) {
     $discoveryBase = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex' }
     $DiscoveryRoot = Join-Path $discoveryBase 'skills'
 }
+if (-not $SkillRoot) { $SkillRoot = $DiscoveryRoot }
 $targetPath = [IO.Path]::GetFullPath((Join-Path $SkillRoot $skillName)).TrimEnd('\')
 $discoveryPath = [IO.Path]::GetFullPath((Join-Path $DiscoveryRoot $skillName)).TrimEnd('\')
 $sourceRoot = $sourceRoot.TrimEnd('\')
